@@ -1,0 +1,8 @@
+{
+  "files.eol": "\n",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "javascript.suggest.autoImports": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
