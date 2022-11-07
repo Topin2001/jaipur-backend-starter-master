@@ -7,6 +7,9 @@ import express from "express"
 import * as gameService from "../services/gameService"
 import * as db from "../database"
 import fs from "fs"
+import path from "path"
+
+const DATABASE_FILE = path.join(__dirname, "../../storage/database.json")
 
 
 const router = express.Router()
@@ -35,20 +38,19 @@ router.delete("/:gameId", (req, res) => {
   let gameList = db.getGames();
 
   let gameIndex = gameList.findIndex((g) => g.id == req.params.gameId)
-  console.log(gameIndex)
 
   if (gameIndex >= 0) gameList.splice(gameIndex, 1);
   else return res.status(404).send("Game not found")
+  console.log(gameList)
 
   try {
-    console.log(gameList)
-    fs.mkdirSync(path.dirname(DATABASE_FILE))
-    db.clear();
-    fs.writeFileSync(DATABASE_FILE, JSON.stringify(gameList))
-    res.status(200).send("Game deleted")
+    fs.rmSync(DATABASE_FILE)
+    // fs.mkdirSync(path.dirname(DATABASE_FILE))
+    // fs.writeFileSync(DATABASE_FILE, JSON.stringify(gameList))
   } catch (e) {
-    //Do nothing  
+    console.log("yousk2")
   }
+  return res.status(200).send("Game DELETED")
 })
 
 export default router
