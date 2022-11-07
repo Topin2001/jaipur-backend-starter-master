@@ -41,14 +41,13 @@ router.delete("/:gameId", (req, res) => {
 
   if (gameIndex >= 0) gameList.splice(gameIndex, 1);
   else return res.status(404).send("Game not found")
-  console.log(gameList)
+//  console.log(gameList)
 
   try {
     fs.rmSync(DATABASE_FILE)
-    // fs.mkdirSync(path.dirname(DATABASE_FILE))
-    // fs.writeFileSync(DATABASE_FILE, JSON.stringify(gameList))
+    fs.writeFileSync(DATABASE_FILE, JSON.stringify(gameList))
   } catch (e) {
-    console.log("yousk2")
+    console.log(e)
   }
   return res.status(200).send("Game DELETED")
 })
