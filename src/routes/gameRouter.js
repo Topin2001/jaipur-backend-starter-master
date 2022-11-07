@@ -50,4 +50,19 @@ router.delete("/:gameId", (req, res) => {
   }
 })
 
+router.get("/games/:gameId/players/:playerId/exchange", (req,res)=>{
+  if (!Number.isInteger(parseInt(req.params.gameId))) return res.status(404).send("Please insert a number")
+  if (!Number.isInteger(parseInt(req.params.playerID))) return res.status(404).send("Please insert a number")
+  let gameList = db.getGames(); 
+  let gameIndex = gameList.findIndex((g)=> g.id == parseInt(req.params.gameId)); 
+  
+  if (gameIndex==-1)return res.status(404).send("Game not found"); 
+  let player=gameList[gameIndex]._players[parseInt(req.params.playerID)]; 
+
+  if (!player) return res.status(400).send("Player not found");  
+  if (req.params.playerID!= gameList[gameIndex].currentPlayerIndex) return res.status(400).send("Not player turn"); 
+  
+
+})
+
 export default router
