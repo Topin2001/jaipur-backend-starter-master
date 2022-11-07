@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-undef */
 /* eslint-disable spaced-comment */
 /* eslint-disable prefer-const */
