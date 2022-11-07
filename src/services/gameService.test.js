@@ -1,66 +1,35 @@
+/* eslint-disable prettier/prettier */
 import * as gameService from "./gameService"
 
-// jest.mock("./gameService");
-
-
 describe("Game service", () => {
-  test("should put camels from hand to herd", () => {
-    // TODO
-    let game = { 
-        _players: [
-            { hand: ["Camel", "Camel", "gold"], camelsCount : 0 },
-            { hand: ["gold", "gold", "gold"], camelsCount : 0 }
-        ]};
-    
-    gameService.putCamelsFromHandToHerd(game)
-    expect( game ).toEqual( 
-            { _players: [
-                { hand: ["gold"], camelsCount : 2 },
-                { hand: ["gold", "gold", "gold"], camelsCount : 0 }
-            ]});
-
-    // console.log(game);
-
-    // gameService.putCamelsFromHandToHerd(game);
-    // expect(game._players[0].hand).toEqual(["gold"]);
-    // expect(game._players[1].hand).toEqual(["gold", "gold", "gold"]);
-    // expect(game._players[0].camelsCount).toEqual(2);
-    // expect(game._players[1].camelsCount).toEqual(0);
+  test("should init a deck", () => {
+    const defaultDeck = gameService.initDeck()
+    expect(defaultDeck.length).toBe(52)
+    expect(defaultDeck.filter((card) => card === "diamonds").length).toBe(6)
+    // etc
   })
 
   test("should draw cards", () => {
-    // TODO
-    let deck = [];
-    deck.push("diamonds");
-    
-    let carte = gameService.drawCards(deck, 1);
-    expect(carte).toEqual(["diamonds"]);
-    expect(deck).toEqual([]);
-
-    deck.push("diamonds");
-    deck.push("diamonds");
-    deck.push("diamonds");
-    carte = gameService.drawCards(deck, 3);
-    
-
-    deck.push("diamonds");
-    deck.push("diamonds");
-    deck.push("diamonds");
-    carte = gameService.drawCards(deck, 0);
-    expect(carte).toEqual([]);
-    expect(deck).toEqual(["diamonds", "diamonds", "diamonds"]);
+    const deck = ["camel", "diamonds", "gold"]
+    const drawnCard = gameService.drawCards(deck, 1)
+    expect(deck.length).toBe(2)
+    expect(drawnCard).toStrictEqual(["camel"])
   })
 
-  test("should init a deck", () => {
-    // TODO
+  test("should put camels from hand to herd", () => {
+    const game = {
+      _players: [
+        { hand: ["camel", "gold"], camelsCount: 0 },
+        { hand: ["gold", "gold"], camelsCount: 0 },
+      ],
+    }
+    gameService.putCamelsFromHandToHerd(game)
+    expect(game._players[0].hand.length).toBe(1)
+    expect(game._players[0].hand).toStrictEqual(["gold"])
+    expect(game._players[0].camelsCount).toBe(1)
 
-    let deck = gameService.initDeck();
-    expect(deck.filter(elt => elt === "diamonds").length).toEqual(6);
-    expect(deck.filter(elt => elt === "gold").length).toEqual(6);
-    expect(deck.filter(elt => elt === "silver").length).toEqual(6);
-    expect(deck.filter(elt => elt === "cloth").length).toEqual(8);
-    expect(deck.filter(elt => elt === "spice").length).toEqual(8);
-    expect(deck.filter(elt => elt === "leather").length).toEqual(10);
-    expect(deck.filter(elt => elt === "Camel").length).toEqual(11-3);
+    expect(game._players[1].hand.length).toBe(2)
+    expect(game._players[1].hand).toStrictEqual(["gold", "gold"])
+    expect(game._players[1].camelsCount).toBe(0)
   })
 })
