@@ -32,6 +32,26 @@ router.get("/", (req, res) => {
   res.status(201).json(gameList)
 })
 
+router.get("/:gameId/players/:playerId", (req, res) => {
+  if (!Number.isInteger(parseInt(req.params.gameId))) return res.status(404).send("Please insert a number")
+
+  let gameList = db.getGames();
+
+  let gameIndex = gameList.findIndex((g) => g.id == req.params.gameId);
+
+ 
+
+  if (gameIndex >= 0) {
+    const game = gameList[gameIndex];
+    return res.status(200).send(game);
+  } else {
+    return res.status(404).send("Game not found")
+  }
+
+  
+  
+})
+
 router.delete("/:gameId", (req, res) => {
   if (!Number.isInteger(parseInt(req.params.gameId))) return res.status(404).send("Please insert a number")
 
